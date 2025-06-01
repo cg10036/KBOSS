@@ -1,0 +1,81 @@
+<html>
+    <body>
+        <h1>KBank 머니건 링크 자동화</h1>
+        <button id="nextBtn" onclick="goToNextLink()">다음 링크로 이동</button>
+        <p>현재 인덱스: <span id="currentIdx">-</span></p>
+        <p>총 링크 수: <span id="totalLinks">-</span></p>
+        
+        <script>
+            const urls = [
+                "https://www.kbank.com/1",
+                "https://www.kbank.com/2",
+            ];
+            
+            let idx = 0;
+            
+            // 페이지 로딩 시 localStorage에서 idx 로딩
+            function loadIdx() {
+                const savedIdx = localStorage.getItem('kbank_idx');
+                if (savedIdx !== null) {
+                    idx = parseInt(savedIdx);
+                }
+                updateDisplay();
+            }
+            
+            // 화면 업데이트
+            function updateDisplay() {
+                document.getElementById('currentIdx').textContent = idx;
+                document.getElementById('totalLinks').textContent = urls.length;
+                
+                // 모든 링크를 다 돌았으면 버튼 비활성화
+                if (idx >= urls.length) {
+                    document.getElementById('nextBtn').disabled = true;
+                    document.getElementById('nextBtn').textContent = '모든 링크 완료';
+                }
+            }
+            
+            // 다음 링크로 이동
+            function goToNextLink() {
+                if (idx < urls.length) {
+                    idx++;
+                    
+                    // localStorage에 저장
+                    localStorage.setItem('kbank_idx', idx.toString());
+                    
+                    // 화면 업데이트
+                    updateDisplay();
+                    
+                    // urls[idx-1]로 이동
+                    const targetUrl = urls[idx - 1];
+                    console.log(`이동할 URL: ${targetUrl}`);
+                    window.open(targetUrl, '_blank');
+                }
+            }
+            
+            // 초기화 함수
+            function resetIdx() {
+                // 확인 창으로 경고
+                if (confirm('정말로 초기화하시겠습니까?\n\n현재 진행상황이 모두 삭제되고 처음부터 다시 시작됩니다.')) {
+                    idx = 0;
+                    localStorage.setItem('kbank_idx', '0');
+                    document.getElementById('nextBtn').disabled = false;
+                    document.getElementById('nextBtn').textContent = '다음 링크로 이동';
+                    updateDisplay();
+                    alert('초기화가 완료되었습니다.');
+                }
+            }
+            
+            // 페이지 로딩 시 실행
+            window.onload = function() {
+                loadIdx();
+                
+                // 리셋 버튼 추가
+                const resetBtn = document.createElement('button');
+                resetBtn.textContent = '초기화';
+                resetBtn.onclick = resetIdx;
+                resetBtn.style.marginLeft = '10px';
+                document.body.appendChild(resetBtn);
+            };
+        </script>
+    </body>
+</html>
