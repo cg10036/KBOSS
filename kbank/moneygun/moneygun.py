@@ -4,7 +4,7 @@ import os
 
 # csv 폴더 안의 모든 *.csv 파일을 읽어서 txt 변수에 저장
 txt = ""
-csv_files = glob.glob(os.path.join('csv', '*.csv'))
+csv_files = glob.glob(os.path.join('../../csv', '*.csv'))
 
 for csv_file in csv_files:
     with open(csv_file, 'r', encoding="utf-8") as f:
