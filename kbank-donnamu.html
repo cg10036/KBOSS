@@ -1,0 +1,142 @@
+<html>
+    <body>
+        <h1>KBank 돈나무 링크 자동화</h1>
+        <button id="backBtn" onclick="goToPrevLink()">이전으로</button>
+        <button id="nextBtn" onclick="goToNextLink()">다음 링크로 이동</button>
+        <p>현재 인덱스: <span id="currentIdx">-</span></p>
+        <p>총 링크 수: <span id="totalLinks">-</span></p>
+        
+        <script>
+            const urls = [
+"https://m.kbanknow.com/banking/k/0OKd2Rr",
+"https://m.kbanknow.com/banking/k/LmzQUIc",
+"https://m.kbanknow.com/banking/k/nxsBUZ9",
+"https://m.kbanknow.com/banking/k/EynHp0J",
+"https://m.kbanknow.com/banking/k/bzJzsdB",
+"https://m.kbanknow.com/banking/k/3PCbzIX",
+"https://m.kbanknow.com/banking/k/EsTmsNh",
+"https://m.kbanknow.com/banking/k/WphHgJx",
+"https://m.kbanknow.com/banking/k/ETvWlJ3",
+"https://m.kbanknow.com/banking/k/edmR3zA",
+"https://m.kbanknow.com/banking/k/r2ukATy",
+"https://m.kbanknow.com/banking/k/QzIpDWe",
+"https://m.kbanknow.com/banking/k/3PgT4iL",
+"https://m.kbanknow.com/banking/k/fFKAa4O",
+"https://m.kbanknow.com/banking/k/tE2DiVm",
+"https://m.kbanknow.com/banking/k/s8H9gdu",
+"https://m.kbanknow.com/banking/k/yAzBOUv",
+"https://m.kbanknow.com/banking/k/1JCAVYn",
+"https://m.kbanknow.com/banking/k/D4C7w25",
+"https://m.kbanknow.com/banking/k/L5azM7P",
+"https://m.kbanknow.com/banking/k/moXCiI9",
+"https://m.kbanknow.com/banking/k/PB7JjT5",
+"https://m.kbanknow.com/banking/k/wjjTM8k",
+"https://m.kbanknow.com/banking/k/yXk4i2c",
+"https://m.kbanknow.com/banking/k/ktnYYu9",
+"https://m.kbanknow.com/banking/k/YHtL1W4",
+"https://m.kbanknow.com/banking/k/ffc8XA3",
+"https://m.kbanknow.com/banking/k/OZqHubU",
+"https://m.kbanknow.com/banking/k/boGL7PQ",
+"https://m.kbanknow.com/banking/k/6tINGsd",
+"https://m.kbanknow.com/banking/k/hlxnlco",
+"https://m.kbanknow.com/banking/k/Ll43xzq",
+"https://m.kbanknow.com/banking/k/gDG9xhp",
+"https://m.kbanknow.com/banking/k/uyaVK2y",
+"https://m.kbanknow.com/banking/k/DyuEiYz",
+"https://m.kbanknow.com/banking/k/wdOmTEV",
+"https://m.kbanknow.com/banking/k/h68g8pV",
+"https://m.kbanknow.com/banking/k/b316IAU",
+"https://m.kbanknow.com/banking/k/B4bZLg1",
+"https://m.kbanknow.com/banking/k/szQSykU",
+"https://m.kbanknow.com/banking/k/tTILBKG",
+"https://m.kbanknow.com/banking/k/I4KPYDg",
+"https://m.kbanknow.com/banking/k/XOtlxTY",
+"https://m.kbanknow.com/banking/k/SVox9w3",
+"https://m.kbanknow.com/banking/k/5X0eEHX",
+"https://m.kbanknow.com/banking/k/DQaNMXP",
+"https://m.kbanknow.com/banking/k/A9mUr9H",
+"https://m.kbanknow.com/banking/k/mmkL6Si",
+"https://m.kbanknow.com/banking/k/MkKKTRZ"
+            ];
+            
+            let idx = 0;
+            
+            // 페이지 로딩 시 localStorage에서 idx 로딩
+            function loadIdx() {
+                const savedIdx = localStorage.getItem('kbank_donnamu_idx');
+                if (savedIdx !== null) {
+                    idx = parseInt(savedIdx);
+                }
+                updateDisplay();
+            }
+            
+            // 화면 업데이트
+            function updateDisplay() {
+                document.getElementById('currentIdx').textContent = idx;
+                document.getElementById('totalLinks').textContent = urls.length;
+                
+                // 모든 링크를 다 돌았으면 버튼 비활성화
+                if (idx >= urls.length) {
+                    document.getElementById('nextBtn').disabled = true;
+                    document.getElementById('nextBtn').textContent = '모든 링크 완료';
+                }
+            }
+            
+            // 다음 링크로 이동
+            function goToNextLink() {
+                if (idx < urls.length) {
+                    idx++;
+                    
+                    // localStorage에 저장
+                    localStorage.setItem('kbank_donnamu_idx', idx.toString());
+                    
+                    // 화면 업데이트
+                    updateDisplay();
+                    
+                    // urls[idx-1]로 이동
+                    const targetUrl = urls[idx - 1];
+                    console.log(`이동할 URL: ${targetUrl}`);
+                    window.open(targetUrl, '_blank');
+                }
+            }
+            
+            // 이전 링크로 이동
+            function goToPrevLink() {
+                if (idx > 0) {
+                    idx--;
+                    
+                    // localStorage에 저장
+                    localStorage.setItem('kbank_donnamu_idx', idx.toString());
+                    
+                    // 화면 업데이트
+                    updateDisplay();
+                }
+            }
+            
+            // 초기화 함수
+            function resetIdx() {
+                // 확인 창으로 경고
+                if (confirm('정말로 초기화하시겠습니까?\n\n현재 진행상황이 모두 삭제되고 처음부터 다시 시작됩니다.')) {
+                    idx = 0;
+                    localStorage.setItem('kbank_donnamu_idx', '0');
+                    document.getElementById('nextBtn').disabled = false;
+                    document.getElementById('nextBtn').textContent = '다음 링크로 이동';
+                    updateDisplay();
+                    alert('초기화가 완료되었습니다.');
+                }
+            }
+            
+            // 페이지 로딩 시 실행
+            window.onload = function() {
+                loadIdx();
+                
+                // 리셋 버튼 추가
+                const resetBtn = document.createElement('button');
+                resetBtn.textContent = '초기화';
+                resetBtn.onclick = resetIdx;
+                resetBtn.style.marginLeft = '10px';
+                document.body.appendChild(resetBtn);
+            };
+        </script>
+    </body>
+</html>
