@@ -70,7 +70,7 @@
             
             // 페이지 로딩 시 localStorage에서 idx 로딩
             function loadIdx() {
-                const savedIdx = localStorage.getItem('kbank_idx');
+                const savedIdx = localStorage.getItem('kbank_rewardcard_idx');
                 if (savedIdx !== null) {
                     idx = parseInt(savedIdx);
                 }
@@ -95,7 +95,7 @@
                     idx++;
                     
                     // localStorage에 저장
-                    localStorage.setItem('kbank_idx', idx.toString());
+                    localStorage.setItem('kbank_rewardcard_idx', idx.toString());
                     
                     // 화면 업데이트
                     updateDisplay();
@@ -113,7 +113,7 @@
                     idx--;
                     
                     // localStorage에 저장
-                    localStorage.setItem('kbank_idx', idx.toString());
+                    localStorage.setItem('kbank_rewardcard_idx', idx.toString());
                     
                     // 화면 업데이트
                     updateDisplay();
@@ -125,7 +125,7 @@
                 // 확인 창으로 경고
                 if (confirm('정말로 초기화하시겠습니까?\n\n현재 진행상황이 모두 삭제되고 처음부터 다시 시작됩니다.')) {
                     idx = 0;
-                    localStorage.setItem('kbank_idx', '0');
+                    localStorage.setItem('kbank_rewardcard_idx', '0');
                     document.getElementById('nextBtn').disabled = false;
                     document.getElementById('nextBtn').textContent = '다음 링크로 이동';
                     updateDisplay();
