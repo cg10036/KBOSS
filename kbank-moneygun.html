@@ -1,6 +1,7 @@
 <html>
     <body>
         <h1>KBank 머니건 링크 자동화</h1>
+        <button id="backBtn" onclick="goToPrevLink()">이전으로</button>
         <button id="nextBtn" onclick="goToNextLink()">다음 링크로 이동</button>
         <p>현재 인덱스: <span id="currentIdx">-</span></p>
         <p>총 링크 수: <span id="totalLinks">-</span></p>
@@ -85,7 +86,29 @@
 "https://m.kbanknow.com/banking/k/kYZxB3G",
 "https://m.kbanknow.com/banking/k/AW7iVTf",
 "https://m.kbanknow.com/banking/k/WWBwpSW",
-"https://m.kbanknow.com/banking/k/H7hdnmX"
+"https://m.kbanknow.com/banking/k/H7hdnmX",
+"https://m.kbanknow.com/banking/k/03rDuTH",
+"https://m.kbanknow.com/banking/k/clYiBcQ",
+"https://m.kbanknow.com/banking/k/bnGLJ0e",
+"https://m.kbanknow.com/banking/k/icH9FA9",
+"https://m.kbanknow.com/banking/k/9ASiGBg",
+"https://m.kbanknow.com/banking/k/G3cd3d9",
+"https://m.kbanknow.com/banking/k/IDnTtJu",
+"https://m.kbanknow.com/banking/k/KvPMMth",
+"https://m.kbanknow.com/banking/k/95iNBrb",
+"https://m.kbanknow.com/banking/k/etCdJFI",
+"https://m.kbanknow.com/banking/k/z4piL4q",
+"https://m.kbanknow.com/banking/k/8J4dxwy",
+"https://m.kbanknow.com/banking/k/hmoecE1",
+"https://m.kbanknow.com/banking/k/Q3mZMp2",
+"https://m.kbanknow.com/banking/k/TDyc6AQ",
+"https://m.kbanknow.com/banking/k/g2AXrHP",
+"https://m.kbanknow.com/banking/k/HoFg16n",
+"https://m.kbanknow.com/banking/k/vjyY8Sp",
+"https://m.kbanknow.com/banking/k/d5FW6Hv",
+"https://m.kbanknow.com/banking/k/cy7pPpU",
+"https://m.kbanknow.com/banking/k/zQD98zM",
+"https://m.kbanknow.com/banking/k/RHhUxFf"
             ];
             
             let idx = 0;
@@ -126,6 +149,19 @@
                     const targetUrl = urls[idx - 1];
                     console.log(`이동할 URL: ${targetUrl}`);
                     window.open(targetUrl, '_blank');
+                }
+            }
+            
+            // 이전 링크로 이동
+            function goToPrevLink() {
+                if (idx > 0) {
+                    idx--;
+                    
+                    // localStorage에 저장
+                    localStorage.setItem('kbank_idx', idx.toString());
+                    
+                    // 화면 업데이트
+                    updateDisplay();
                 }
             }
             
